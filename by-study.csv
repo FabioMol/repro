@@ -1,0 +1,56 @@
+author,year,journal,score,species,only13.14,three_data,eleven_rando,twelve_permit,thirteen_stats,fourteen_assump
+"Gordon, Lenhart, LaPara",2020,Journal of Environmental Quality,0.321428571,RCG,2,0,1,0,2,2
+"Rojas, Zedler",2015,Wetlands Ecology and Management,0.346153846,RCG,1.5,0,2,0,2,1
+"Price, Spyreas, Matthews",2018,Journal of Ecology,0.576923077,RCG,2,2,1,0,2,2
+"Kirsch, Gray, Fox, Thogmartin",2007,Wetlands,0.346153846,RCG,2,0,1,0,2,2
+"Green, Galatowitsch",2001,Canadian Journal of Botany,0.346153846,RCG,2,0,1,,2,2
+"Rowe, Duarte, Pearl, McCreary, Galvan, Peterson, Adams",2019,Ecosphere,0.576923077,RCG,2,2,1,0,2,2
+"Wetzel, van der Valk ",1998,Plant Ecology,0.346153846,RCG,2,0,1,,2,2
+"Lavoie, Jean, Delisle, Letourneau",2003,Journal of Biogeography,0.178571429,RCG,0.5,0,0,0,1,0
+"De Jager, Swanson, Strauss, Thomsen, Yin",2015,Wetlands Ecology and Management,0.178571429,RCG,1,0,0,0,2,0
+"Mahaney, Wardrop, Brooks",2004,Plant Ecology,0.285714286,RCG,2,0,0,0,2,2
+"Rachich, Reader",1999,Wetlands,0.346153846,RCG,2,0,1,0,2,2
+"Martinez, McDowell",2016,Invasive Plant Science and Management,0.178571429,RCG,0,0,2,0,0,0
+"Schooler, McEvoy, Hammond, Coombs",2009,Bulletin of Entomological Research,0.392857143,RCG,2,0,2,0,2,2
+"Yavitt, Burtis, Smemo, Welsch",2018,Geoderma,0.321428571,RCG,2,0,1,0,2,2
+"Cohen, Ng, Blossey",2012,Journal of Herpetology,0.357142857,RCG,2,0,1,1,2,2
+"Jacinthe, Bills, Tedesco",2010,Plant and Soil,0.357142857,RCG,2,0,0,2,2,2
+Lesica,1997,The Great Basin Naturalist,0.192307692,RCG,0.5,0,0,0,1,0
+"Fierke, Kauffman",2005,Forest Ecology and Management,0.392857143,RCG,2,0,1,2,2,2
+"Weilhoefer, Williams, Nguyen, Jakstis, Fischer",2017,Wetlands Ecology and Management,0.346153846,RCG,1,0,1,2,2,0
+"Kapfer, Doehler, Hay",2013,Journal of Herpetology,0.384615385,RCG,2,0,0,2,2,2
+Barnes,1999,Journal of the Torrey Botanical Society,0.153846154,RCG,0,0,0,0,0,0
+"Orr, CH; Stanley, EH",2006,River Research and Applications,0.214285714,RCG,0.5,0,1,0,1,0
+"Ringold, Paul L.; Magee, Teresa K.; Peck, David V.",2008,Journal of the North American Benthological Society,0.346153846,both,0.5,1,1,0,1,0
+Scott H. Stoleson and Deborah M. Finch,2001,The Wilson Bulletin,0.230769231,RO,0.5,0,1,0,1,0
+"Howe, W. H. & Knopf F. L.",1991,The Southwestern Naturalist,0.25,RO,1,0,1,0,2,0
+Van Dersal,1939,The Auk,0.045454545,RO,0,0,0,0,,
+"Campbell, C. J. and W. A. Dick-Peddie ",1964,Ecology,0.230769231,RO,0.5,0,1,0,1,0
+Stacey B. Simons and T. R. Seastedt,1999,The Southwestern Naturalist,0.214285714,RO,1,0,0,0,2,0
+CHERYL M. PEARCE & DERALD G. SMITH ,2001,Environmental Management,0.230769231,RO,1,0,0,0,1,1
+"Royer, T.V., Monaghan, M.T. & Minshall, G.W.",1999,Hydrobiologia,0.178571429,RO,0.5,0,0,0,1,0
+"Randall J. Gazda, Randell R. Meidinger, I. J. Ball and John W. Connelly",2002,Wildlife Society Bulletin,0.230769231,RO,1,0,0,0,1,1
+"MM Mineau, CV Baxter, AM Marcarelli",2011,Ecosystems,0.428571429,RO,2,1,1,2,2,2
+"Christine L. Goldstein, Karl W.J. Williard, Jon E. Schoonover",2009,Journal of the American Water Resources Association,0.25,RO,1,0,1,0,2,0
+"Herakovich, H; DeVries, M; Eberhardt, LS",2016,Natural Areas Journal,0.230769231,RO,0.5,0,1,0,1,0
+"Harner, Mary J.; Crenshaw, Chelsea L.; Abelho, Manuela; Stursova, Martina; Shah, Jennifer J. Follstad; Sinsabaugh, Robert L.",2009,Ecological Applications,0.321428571,RO,2,1,0,0,2,2
+"Moline, AB; Poff, NL",2008,Freshwater Biology,0.285714286,RO,2,0,0,0,2,2
+"Barela, IA; Frey, JK",2016,The Southwestern Naturalist,0.346153846,RO,2,0,1,0,2,2
+"Bateman, HL; Chung-MacCoubrey, A; Snell, HL",2008,Restoration Ecology,0.461538462,RO,2,1,1,2,2,2
+"Tredick, CA; Kelly, MJ; Vaughan, MR",2016,Journal of Mammalogy,0.384615385,RO,2,0,2,0,2,2
+"Collette, LKD; Pither, J",2016,The Canadian Entomologist,0.321428571,RO,2,1,0,0,2,2
+"Katz, GL; Tuttle, GM; Denslow, MW; Norton, AP",2020,Wetlands,0.464285714,RO,2,1,1,2,2,2
+"Mahoney, SM; Smith, ANB; Motyka, PJ; Lundgren, EJ; Winton, RR; Stevens, B; Johnson, MJ",2019,Journal of Arid Environments,0.230769231,RO,1,0,0,0,2,0
+"DeCant, JP",2008,Wetlands,0.321428571,RO,2,0,1,0,2,2
+"Fischer RA, Valente JJ, Guilfoyle MP, Kaller MD, Jackson SS, Ratti JT",2012,Northwest Science,0.346153846,RO,1.5,0,2,0,2,1
+"Smith, D. Max; Finch, Deborah M.; Stoleson, Scott H.",2014,The Southwestern Naturalist,0.346153846,RO,2,0,0,2,2,2
+"Valente, JJ; McCune, KB; Tamulonis, RA; Neipert, ES; Fischer, RA",2019,Ecosphere,0.423076923,RO,2,1,2,0,2,2
+"Rosemary L. Pendleton, Burton K. Pendleton, Deborah Finch",2011,Natural Resources and Environmental Issues,0.25,RO,1.5,1,0,0,1,2
+"Follstad Shah, J.J., Harner, M.J. & Tibbets",2010,Ecosystems,0.321428571,RO,2,1,0,0,2,2
+Knopf F. L. & Olson T. E.,1984,Wildlife Society Bulletin,0.307692308,RO,0.5,1,0,2,1,0
+"Kercher, S. M., Carpenter, Q. J., and Zedler, J. B.",2004,Natural Areas Journal,0.269230769,RCG,1.5,0,0,0,2,1
+"Dalton, Carpenter, Boutin, Allison",2017,Applied Vegetation Science,0.357142857,RCG,2,1,1,0,2,2
+"Swanson, De Jager, Strauss, Thomsen",2017,Ecohydrology,0.285714286,RCG,1.5,0,1,0,2,1
+"Kreiling, De Jager, Swanson, Strauss, Thomsen",2015,Wetlands,0.307692308,RCG,2,0,0,0,2,2
+"Spyreas, Wilm, Plocher, Ketzner, Matthews, Ellis, Heske",2010,Biological Invasions,0.321428571,RCG,2,0,1,0,2,2
+"Green, Galatowitsch",2002,Journal of applied Ecology,0.392857143,RCG,2,0,2,0,2,2
