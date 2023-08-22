@@ -33,6 +33,7 @@ library(tidyverse)
 library(ggpubr)
 library(lme4)
 library(pscl)
+library(gridExtra)
 
 ### data
 
@@ -59,19 +60,19 @@ mean(STUDY$score)
 ### =====================================
 
 # (2) Do scores increase over time? 
-# Is there an effect of a) species and b) author and journals?
-# used lmer and glm
+# Is there an effect of species? 
+# used glm and visual representation
 
 
 hist(STUDY$score)
 hist(STUDY$year)
 hist(log(STUDY$year))
 
-#scores ~ year + fixed and random factors
-repro.random = lmer(score~log(year)+species+(1|journal)+(1|author), STUDY)
-summary(repro.random)
 
-#scores ~ year
+#GLM w/ outliers
+repro.year = lm(score~log(year)+species, STUDY)
+summary(repro.year)
+
 repro.year = lm(score~log(year), STUDY)
 summary(repro.year)
 
@@ -93,7 +94,57 @@ ggplot(STUDY, aes(log(year), score)) +
   theme(legend.title=element_blank())
 
 
+#GLM w/o outliers
 
+STUDY.1 <- subset(STUDY, year > 1990)
+
+hist(STUDY.1$year)
+hist(log(STUDY.1$year))
+
+repro.year.1 = lm(score~log(year), STUDY.1)
+summary(repro.year.1)
+
+ggplot(STUDY.1, aes(log(year), score)) +
+  geom_point(aes(size=2)) +
+  stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
+  labs (x= "log (Year of Publication)", y = "Score") +
+  stat_regline_equation(label.y = 0.55, size=8, aes(label = after_stat(eq.label))) +
+  stat_regline_equation(label.y = 0.6, size=8, aes(label = ..rr.label..)) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+#Spearman rank correlation
+
+#w/ outlier
+cor_test <- cor.test(STUDY$score, STUDY$year, method = "spearman", exact = FALSE)
+print(cor_test)
+
+# Print the conclusion based on the p-value
+if (cor_test$p.value < 0.05) {
+  print("The correlation is statistically significant.")
+} else {
+  print("The correlation is not statistically significant.")
+}
+
+
+#w/o outlier
+cor_test2 <- cor.test(STUDY.1$score, STUDY.1$year, method = "spearman", exact = FALSE)
+print(cor_test2)
+
+# Print the conclusion based on the p-value
+if (cor_test2$p.value < 0.05) {
+  print("The correlation is statistically significant.")
+} else {
+  print("The correlation is not statistically significant.")
+}
 
 ### =====================================
 ### ============= BY ITEM ===============
@@ -109,6 +160,9 @@ ggplot(STUDY, aes(log(year), score)) +
 # (4) Which scores of 3, 11, 12, 13, and 14 increased over time?
 #used glm and zero inflated poisson models
 
+
+
+#Can't use binomial logit link, again needs to be be 0 or 1
 
 ###____________three______________
 #three - data availability statement
@@ -194,7 +248,133 @@ summary(repro.fuorteen2) #Significant
 
 library(gridExtra)
 
+plot1 = ggplot(STUDY, aes((year), one_registration)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot2 = ggplot(STUDY, aes((year), two_material)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
 plot3 = ggplot(STUDY, aes((year), three_data)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot4 = ggplot(STUDY, aes((year), four_datalink)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot6 = ggplot(STUDY, aes((year), six_code)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  labs (x= "Publication year", y = "Three - Data avilability statement") +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot10 = ggplot(STUDY, aes((year), ten_sample)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
   labs (x= "Publication year", y = "Three - Data avilability statement") +
   theme_bw() +
@@ -264,4 +444,5 @@ plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
         legend.position = 'none') +
   theme(legend.title=element_blank())
 
-grid.arrange(plot3, plot11, plot12, plot13, plot14) #no trendline for 14.
+grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
+             plot11, plot12, plot13, plot14) #no trendline for 14.
