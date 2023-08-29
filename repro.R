@@ -151,16 +151,262 @@ if (cor_test2$p.value < 0.05) {
 ### =====================================
 
 # (3) What are the areas of weakness and strength? 
+
+###Plots for figure including all scores separately
+
+library(gridExtra)
+
+plot1 = ggplot(STUDY, aes((year), one_registration)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.00", color = "Red", size = 5) +
+  labs (x= "", y = "Registration") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot2 = ggplot(STUDY, aes((year), two_material)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.05", color = "Red", size = 5) +
+  labs (x= "", y = "Material") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot3 = ggplot(STUDY, aes((year), three_data)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.14", color = "Orange", size = 5) +
+  labs (x= "", y = "Data avilability") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot4 = ggplot(STUDY, aes((year), four_datalink)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.05", color = "Red", size = 5) +
+  labs (x= "", y = "Data link") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.02", color = "Red", size = 5) +
+  labs (x= "", y = "Data licence") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot6 = ggplot(STUDY, aes((year), six_code)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.03", color = "Red", size = 5) +
+  labs (x= "", y = "Code avilability") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.00", color = "Red", size = 5) +
+  labs (x= "", y = "Code link") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.00", color = "Red", size = 5) +
+  labs (x= "", y = "Code licence") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = 1.8,
+            label = "Score = 0.95", color = "Dark green", size = 5) +
+  labs (x= "", y = "Protocol") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot10 = ggplot(STUDY, aes((year), ten_sample)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = 1.8,
+            label = "Score = 0.97", color = "Dark green", size = 5) +
+  labs (x= "", y = "Sample") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.36", color = "Orange", size = 5) +
+  labs (x= "", y = "Randomization") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.18", color = "Orange", size = 5) +
+  labs (x= "", y = "Permit") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.85", color = "Orange", size = 5) +
+  labs (x= "", y = "Statistics") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
+  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_text(x = 1955, y = max(STUDY$three_data),
+            label = "Score = 0.63", color = "Orange", size = 5) +
+  labs (x= "Publication year", y = "Assumptions") +
+  ylim(0, 2) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
+             plot11, plot12, plot13, plot14)
+
+
+
+#Draft of modelling if needed
+
 # Only areas were we scored between 0.1 and 0.9 were included in
 # the following analyses. These areas are 3, 11, 12, 13, 14
 # scores by item can be calculated by using mean function (remove nas first). 
 
-
-
 # (4) Which scores of 3, 11, 12, 13, and 14 increased over time?
 #used glm and zero inflated poisson models
-
-
 
 #Can't use binomial logit link, again needs to be be 0 or 1
 
@@ -241,208 +487,3 @@ summary(repro.fuorteen) #Significant, underdispersed (quasi)
 
 repro.fuorteen2 = glm(fourteen_assump~(year), family=poisson, STUDY.14)
 summary(repro.fuorteen2) #Significant
-
-
-
-###Figures
-
-library(gridExtra)
-
-plot1 = ggplot(STUDY, aes((year), one_registration)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot2 = ggplot(STUDY, aes((year), two_material)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot3 = ggplot(STUDY, aes((year), three_data)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot4 = ggplot(STUDY, aes((year), four_datalink)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot6 = ggplot(STUDY, aes((year), six_code)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot10 = ggplot(STUDY, aes((year), ten_sample)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Three - Data avilability statement") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Eleven - Randomization") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Twelve - Study Authorization") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Thirteen - Statistics") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
-  labs (x= "Publication year", y = "Fourteen - Assumptions") +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
-             plot11, plot12, plot13, plot14) #no trendline for 14.
