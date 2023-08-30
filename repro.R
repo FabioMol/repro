@@ -37,7 +37,7 @@ library(gridExtra)
 
 ### data
 
-STUDY = read_csv("./by-study.csv")
+STUDY = read_csv("./scores.csv")
 
 
 ### =====================================
@@ -69,7 +69,7 @@ hist(STUDY$year)
 hist(log(STUDY$year))
 
 
-#GLM w/ outliers
+#GLM w/ <1990
 repro.year = lm(score~log(year)+species, STUDY)
 summary(repro.year)
 
@@ -94,7 +94,7 @@ ggplot(STUDY, aes(log(year), score)) +
   theme(legend.title=element_blank())
 
 
-#GLM w/o outliers
+#GLM w/o <1990
 
 STUDY.1 <- subset(STUDY, year > 1990)
 
@@ -121,9 +121,39 @@ ggplot(STUDY.1, aes(log(year), score)) +
         legend.position = 'none') +
   theme(legend.title=element_blank())
 
+
+#GLM w/o shared authorship
+
+STUDY.2 <- subset(STUDY, duplicates != 1)
+
+hist(STUDY.2$year)
+hist(log(STUDY.2$year))
+
+repro.year.2 = lm(score~log(year), STUDY.2)
+summary(repro.year.2)
+
+ggplot(STUDY.2, aes(log(year), score)) +
+  geom_point(aes(size=2)) +
+  stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
+  labs (x= "log (Year of Publication)", y = "Score") +
+  stat_regline_equation(label.y = 0.55, size=8, aes(label = after_stat(eq.label))) +
+  stat_regline_equation(label.y = 0.6, size=8, aes(label = ..rr.label..)) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none') +
+  theme(legend.title=element_blank())
+
+
+
 #Spearman rank correlation
 
-#w/ outlier
+#w/ <1990
 cor_test <- cor.test(STUDY$score, STUDY$year, method = "spearman", exact = FALSE)
 print(cor_test)
 
@@ -135,12 +165,23 @@ if (cor_test$p.value < 0.05) {
 }
 
 
-#w/o outlier
+#w/o <1990
 cor_test2 <- cor.test(STUDY.1$score, STUDY.1$year, method = "spearman", exact = FALSE)
 print(cor_test2)
 
 # Print the conclusion based on the p-value
 if (cor_test2$p.value < 0.05) {
+  print("The correlation is statistically significant.")
+} else {
+  print("The correlation is not statistically significant.")
+}
+
+#w/o shared authorship
+cor_test3 <- cor.test(STUDY.2$score, STUDY.2$year, method = "spearman", exact = FALSE)
+print(cor_test3)
+
+# Print the conclusion based on the p-value
+if (cor_test3$p.value < 0.05) {
   print("The correlation is statistically significant.")
 } else {
   print("The correlation is not statistically significant.")
@@ -153,8 +194,6 @@ if (cor_test2$p.value < 0.05) {
 # (3) What are the areas of weakness and strength? 
 
 ###Plots for figure including all scores separately
-
-library(gridExtra)
 
 plot1 = ggplot(STUDY, aes((year), one_registration)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
