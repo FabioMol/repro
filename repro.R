@@ -68,15 +68,31 @@ hist(STUDY$score)
 hist(STUDY$year)
 hist(log(STUDY$year))
 
+#hist figure
+fig2.a = ggplot(STUDY, aes(x = year)) +
+  geom_histogram(binwidth = 5, fill = "grey", color = "black", alpha = 0.7) +
+  labs(title = "", x = "Publication Year", y = "Number of Studies") +
+  scale_x_continuous(breaks = c(1940, 1960, 1980, 2000, 2020))+
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 25, colour='black'),
+        axis.title.x = element_text(size = 25, colour='black'),
+        axis.text.y = element_text(size = 20, colour='black'),
+        axis.text.x = element_text(size = 20, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none')+ 
+theme(legend.title=element_blank())
 
-#GLM w/ <1990
+
+#GLM all studies
 repro.year = lm(score~log(year)+species, STUDY)
 summary(repro.year)
 
 repro.year = lm(score~log(year), STUDY)
 summary(repro.year)
 
-ggplot(STUDY, aes(log(year), score)) +
+fig2.b = ggplot(STUDY, aes(log(year), score)) +
   geom_point(aes(size=2)) +
   stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
   labs (x= "log (Year of Publication)", y = "Score") +
@@ -92,6 +108,9 @@ ggplot(STUDY, aes(log(year), score)) +
         panel.grid.minor = element_blank(),
         legend.position = 'none') +
   theme(legend.title=element_blank())
+
+#Figure 2
+grid.arrange(fig2.a, fig2.b)
 
 
 #GLM w/o <1990
