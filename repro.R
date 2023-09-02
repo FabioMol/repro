@@ -183,7 +183,6 @@ if (cor_test$p.value < 0.05) {
   print("The correlation is not statistically significant.")
 }
 
-
 #w/o <1990
 cor_test2 <- cor.test(STUDY.1$score, STUDY.1$year, method = "spearman", exact = FALSE)
 print(cor_test2)
@@ -206,20 +205,77 @@ if (cor_test3$p.value < 0.05) {
   print("The correlation is not statistically significant.")
 }
 
+
+
+
 ### =====================================
 ### ============= BY ITEM ===============
 ### =====================================
 
 # (3) What are the areas of weakness and strength? 
 
+# List of variable names for which you want to calculate the mean
+variable_names <- c("one_registration", "two_material", "three_data", 
+                    "four_datalink", "five_datalicence", "six_code", 
+                    "seven_codelink", "eight_codelicence", "nine_protocol",
+                    "ten_sample", "eleven_rando", "twelve_permit",
+                    "thirteen_stats", "fourteen_assump")
+
+# Initialize an empty vector to store the means
+means <- numeric(length(variable_names))
+
+# Loop through the variable names and calculate the mean
+for (i in seq_along(variable_names)) {
+  var_name <- variable_names[i]
+  mean_value <- mean(STUDY[[var_name]], na.rm = TRUE)
+  rounded_mean <- round(mean_value, 2)
+    means[i] <- rounded_mean
+}
+
+#scores_categories
+scores_categories <- c("outstanding", "outstanding", "ongoing", 
+                    "outstanding", "outstanding", "outstanding", 
+                    "outstanding", "outstanding", "completed",
+                    "completed", "ongoing", "ongoing",
+                    "ongoing", "ongoing")
+
+#new_df
+ITEMS_means <- data.frame(means = means, items = variable_names, categories = scores_categories)
+
+#reorder
+ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "two_material", "three_data", 
+                                                  "four_datalink", "five_datalicence", "six_code", 
+                                                  "seven_codelink", "eight_codelicence", "nine_protocol",
+                                                  "ten_sample", "eleven_rando", "twelve_permit",
+                                                  "thirteen_stats", "fourteen_assump"))
+
+#Plot means
+plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
+  geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
+  labs(title = "", x = "Checklist items", y = "Score means")+
+  scale_fill_manual(values = c("Dark green", "Orange", "Dark red"))+
+  scale_x_discrete(
+    labels = c("1", "2", "3", "4", "5", "6", "7", "8",
+               "9", "10", "11", "12", "13", "14")) +
+  theme_bw() +
+  theme(plot.title = element_blank(),
+        axis.title.y = element_text(size = 20, colour='black'),
+        axis.title.x = element_text(size = 20, colour='black'),
+        axis.text.y = element_text(size = 10, colour='black'),
+        axis.text.x = element_text(size = 10, colour='black'),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.position = 'none')+ 
+  theme(legend.title=element_blank())
+
+
+
 ###Plots for figure including all scores separately
 
 plot1 = ggplot(STUDY, aes((year), one_registration)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.00", color = "Red", size = 5) +
-  labs (x= "", y = "Registration") +
-  ylim(0, 2) +
+  labs (x= "", y = "1 - Registration") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -233,10 +289,8 @@ plot1 = ggplot(STUDY, aes((year), one_registration)) +
 
 plot2 = ggplot(STUDY, aes((year), two_material)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.05", color = "Red", size = 5) +
-  labs (x= "", y = "Material") +
-  ylim(0, 2) +
+  labs (x= "", y = "2 - Material") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -250,10 +304,8 @@ plot2 = ggplot(STUDY, aes((year), two_material)) +
 
 plot3 = ggplot(STUDY, aes((year), three_data)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.14", color = "Orange", size = 5) +
-  labs (x= "", y = "Data avilability") +
-  ylim(0, 2) +
+  labs (x= "", y = "3 - Data avilability") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -267,10 +319,8 @@ plot3 = ggplot(STUDY, aes((year), three_data)) +
 
 plot4 = ggplot(STUDY, aes((year), four_datalink)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.05", color = "Red", size = 5) +
-  labs (x= "", y = "Data link") +
-  ylim(0, 2) +
+  labs (x= "", y = "4 - Data link") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -284,10 +334,8 @@ plot4 = ggplot(STUDY, aes((year), four_datalink)) +
 
 plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.02", color = "Red", size = 5) +
-  labs (x= "", y = "Data licence") +
-  ylim(0, 2) +
+  labs (x= "", y = "5 - Data licence") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -301,10 +349,8 @@ plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
 
 plot6 = ggplot(STUDY, aes((year), six_code)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.03", color = "Red", size = 5) +
-  labs (x= "", y = "Code avilability") +
-  ylim(0, 2) +
+  labs (x= "", y = "6 - Code avilability") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -318,10 +364,8 @@ plot6 = ggplot(STUDY, aes((year), six_code)) +
 
 plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.00", color = "Red", size = 5) +
-  labs (x= "", y = "Code link") +
-  ylim(0, 2) +
+  labs (x= "", y = "7 - Code link") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -335,10 +379,8 @@ plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
 
 plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.00", color = "Red", size = 5) +
-  labs (x= "", y = "Code licence") +
-  ylim(0, 2) +
+  labs (x= "", y = "8 - Code licence") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -352,10 +394,8 @@ plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
 
 plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = 1.8,
-            label = "Score = 0.95", color = "Dark green", size = 5) +
-  labs (x= "", y = "Protocol") +
-  ylim(0, 2) +
+  labs (x= "", y = "9 - Protocol") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -369,10 +409,8 @@ plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
 
 plot10 = ggplot(STUDY, aes((year), ten_sample)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = 1.8,
-            label = "Score = 0.97", color = "Dark green", size = 5) +
-  labs (x= "", y = "Sample") +
-  ylim(0, 2) +
+  labs (x= "", y = "10 - Sample") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -386,10 +424,8 @@ plot10 = ggplot(STUDY, aes((year), ten_sample)) +
 
 plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.36", color = "Orange", size = 5) +
-  labs (x= "", y = "Randomization") +
-  ylim(0, 2) +
+  labs (x= "", y = "11 - Randomization") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -403,10 +439,8 @@ plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
 
 plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.18", color = "Orange", size = 5) +
-  labs (x= "", y = "Permit") +
-  ylim(0, 2) +
+  labs (x= "", y = "12 - Permit") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -420,10 +454,8 @@ plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
 
 plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.85", color = "Orange", size = 5) +
-  labs (x= "", y = "Statistics") +
-  ylim(0, 2) +
+  labs (x= "", y = "13 - Statistics") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -437,10 +469,8 @@ plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
 
 plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
-  geom_text(x = 1955, y = max(STUDY$three_data),
-            label = "Score = 0.63", color = "Orange", size = 5) +
-  labs (x= "Publication year", y = "Assumptions") +
-  ylim(0, 2) +
+  labs (x= "Publication year", y = "14 - Assumptions") +
+  ylim(0, 1) +
   theme_bw() +
   theme(plot.title = element_blank(),
         axis.title.y = element_text(size = 20, colour='black'),
@@ -452,8 +482,14 @@ plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
         legend.position = 'none') +
   theme(legend.title=element_blank())
 
-grid.arrange(plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
+grid.arrange(plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
              plot11, plot12, plot13, plot14)
+
+
+
+
+
+
 
 
 
