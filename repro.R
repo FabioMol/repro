@@ -8,7 +8,7 @@
 ###
 ### Author: Dr. Fabio Mologni
 ###
-### Date: 2023-07-13
+### Date: 2023-11-30
 ###
 ### =============================
 ###
@@ -44,9 +44,10 @@ STUDY = read_csv("./scores.csv")
 ### ============= PREMISES ==============
 ### =====================================
 
-# We are using Sophia/Bronte/Jordan reproducibility checklist
-# Against the papers on impacts extracted for our 2 pilot species
-# Russian Olive and Reed Canary Grass
+# We used a reproducibility checklist adapted from Kast et al. 2023
+# to assess the level of reproducibility of a set of studies 
+# assessing the impacts of Russian Olive and Reed Canary Grass
+# in rpiaria ecosystems of British Columbia
 
 ### =====================================
 ### ============== SCORES ===============
@@ -59,16 +60,15 @@ mean(STUDY$score)
 ### ============= BY STUDY ==============
 ### =====================================
 
-# (2) Do scores increase over time? 
+# (2) Do scores change over time? 
 # Is there an effect of species? 
-# used glm and visual representation
 
-
+#histograms
 hist(STUDY$score)
 hist(STUDY$year)
 hist(log(STUDY$year))
 
-#hist figure
+#fig2.a - hist showing number of studies over the years
 fig2.a = ggplot(STUDY, aes(x = year)) +
   geom_histogram(binwidth = 5, fill = "grey", color = "black", alpha = 0.7) +
   labs(title = "", x = "Publication Year", y = "Number of Studies") +
@@ -85,13 +85,14 @@ fig2.a = ggplot(STUDY, aes(x = year)) +
 theme(legend.title=element_blank())
 
 
-#GLM all studies
+#GLM scores ~ time for all studies
 repro.year = lm(score~log(year)+species, STUDY)
 summary(repro.year)
 
 repro.year = lm(score~log(year), STUDY)
 summary(repro.year)
 
+#fig2.b - regression showing scores over the years
 fig2.b = ggplot(STUDY, aes(log(year), score)) +
   geom_point(aes(size=2)) +
   stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
@@ -109,11 +110,11 @@ fig2.b = ggplot(STUDY, aes(log(year), score)) +
         legend.position = 'none') +
   theme(legend.title=element_blank())
 
-#Figure 2
+#arranging both fig2.a & fig2.b
 grid.arrange(fig2.a, fig2.b)
 
 
-#GLM w/o <1990
+#GLM scores ~ time w/o <1990
 
 STUDY.1 <- subset(STUDY, year > 1990)
 
@@ -141,7 +142,7 @@ ggplot(STUDY.1, aes(log(year), score)) +
   theme(legend.title=element_blank())
 
 
-#GLM w/o shared authorship
+#GLM scores ~ time w/o studies that shared authorship
 
 STUDY.2 <- subset(STUDY, duplicates != 1)
 
@@ -170,9 +171,9 @@ ggplot(STUDY.2, aes(log(year), score)) +
 
 
 
-#Spearman rank correlation
+#Spearman rank correlation - scores ~ time
 
-#w/ <1990
+#for all studies
 cor_test <- cor.test(STUDY$score, STUDY$year, method = "spearman", exact = FALSE)
 print(cor_test)
 
@@ -214,7 +215,7 @@ if (cor_test3$p.value < 0.05) {
 
 # (3) What are the areas of weakness and strength? 
 
-# List of variable names for which you want to calculate the mean
+# List of variable names (checklist items) for which you want to calculate the mean
 variable_names <- c("one_registration", "two_material", "three_data", 
                     "four_datalink", "five_datalicence", "six_code", 
                     "seven_codelink", "eight_codelicence", "nine_protocol",
@@ -224,7 +225,7 @@ variable_names <- c("one_registration", "two_material", "three_data",
 # Initialize an empty vector to store the means
 means <- numeric(length(variable_names))
 
-# Loop through the variable names and calculate the mean
+# Loop through the variable names (checklist items) and calculate the mean
 for (i in seq_along(variable_names)) {
   var_name <- variable_names[i]
   mean_value <- mean(STUDY[[var_name]], na.rm = TRUE)
@@ -232,24 +233,24 @@ for (i in seq_along(variable_names)) {
     means[i] <- rounded_mean
 }
 
-#scores_categories
+#assign scores_categories to each variable
 scores_categories <- c("overlooked", "overlooked", "overlooked", 
                     "overlooked", "overlooked", "overlooked", 
                     "overlooked", "overlooked", "addressed",
                     "overlooked", "in progress", "overlooked",
                     "addressed", "in progress")
 
-#new_df
+#create a new_df
 ITEMS_means <- data.frame(means = means, items = variable_names, categories = scores_categories)
 
-#reorder
+#reorder variables (checklist items)
 ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "two_material", "three_data", 
                                                   "four_datalink", "five_datalicence", "six_code", 
                                                   "seven_codelink", "eight_codelicence", "nine_protocol",
                                                   "ten_sample", "eleven_rando", "twelve_permit",
                                                   "thirteen_stats", "fourteen_assump"))
 
-#Plot means
+#Plot the means, color by category
 plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
   geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
   labs(title = "", x = "Checklist items", y = "Score means")+
@@ -270,7 +271,7 @@ plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
 
 
 
-###Plots for figure including all scores separately
+###Plots scores by study for each variable (checklist items) separately
 
 plot1 = ggplot(STUDY, aes((year), one_registration)) +
   geom_point(aes(size=2), shape=1, stroke=1) +
@@ -484,100 +485,3 @@ plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
 
 grid.arrange(plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
              plot11, plot12, plot13, plot14)
-
-
-
-
-
-
-
-
-
-#Draft of modelling if needed
-
-# Only areas were we scored between 0.1 and 0.9 were included in
-# the following analyses. These areas are 3, 11, 12, 13, 14
-# scores by item can be calculated by using mean function (remove nas first). 
-
-# (4) Which scores of 3, 11, 12, 13, and 14 increased over time?
-#used glm and zero inflated poisson models
-
-#Can't use binomial logit link, again needs to be be 0 or 1
-
-###____________three______________
-#three - data availability statement
-hist((STUDY$three_data))
-plot(three_data~year, STUDY)
-
-repro.three = glm(three_data~(year), family=quasipoisson, STUDY)
-summary(repro.three) #NS, dispersion parameter ~1 (poisson)
-
-repro.three2 = glm(three_data~(year), family=poisson, STUDY)
-summary(repro.three2) #NS
-
-zip_model_three <- zeroinfl(three_data ~ log(year), data = STUDY, dist = "poisson")
-summary(zip_model_three) #not working
-
-
-
-###__________eleven____________
-#eleven - randomization
-hist((STUDY$eleven_rando))
-plot(eleven_rando~year, STUDY)
-
-repro.eleven = glm(eleven_rando~(year), family=quasipoisson, STUDY)
-summary(repro.eleven) #NS, underdispersd (quasi)
-
-repro.eleven2 = glm(eleven_rando~(year), family=poisson, STUDY)
-summary(repro.eleven2) #NS
-
-zip_model_eleven <- zeroinfl(eleven_rando ~ log(year), data = STUDY, dist = "poisson")
-summary(zip_model_eleven) #NS, log(year) otherwise too much separation
-
-
-
-###__________twelve____________
-###twelve - study authorization
-STUDY.12 = na.omit(STUDY)
-
-hist((STUDY.12$twelve_permit))
-plot(twelve_permit~year, STUDY.12)
-
-repro.tewlve = glm(twelve_permit~(year), family=quasipoisson, STUDY.12)
-summary(repro.tewlve) #NS, slighly overdispersed (either)
-
-repro.tewlve2 = glm(twelve_permit~(year), family=poisson, STUDY.12)
-summary(repro.tewlve2) #NS
-
-zip_model_twelve <- zeroinfl(twelve_permit ~ log(year), data = STUDY, dist = "poisson")
-summary(zip_model_twelve) #NS, log(year) otherwise too much separation
-
-
-
-###_________thirteen___________
-#thirteen - statistics
-STUDY.13 = na.omit(STUDY)
-
-hist((STUDY.13$thirteen_stats)) #is poisson appropriate here?
-plot(thirteen_stats~year, STUDY.13)
-
-repro.thirteen = glm(thirteen_stats~(year), family=quasipoisson, STUDY.13)
-summary(repro.thirteen) #Significant, underdispersed (quasi)
-
-repro.thirteen2 = glm(thirteen_stats~(year), family=poisson, STUDY.13)
-summary(repro.thirteen2) #NS
-
-
-
-###_________fourteen___________
-#fourteen - assumptions
-STUDY.14 = na.omit(STUDY)
-
-hist((STUDY.14$fourteen_assump)) #is poisson appropriate here?
-plot(fourteen_assump~year, STUDY.14)
-
-repro.fuorteen = glm(fourteen_assump~(year), family=quasipoisson, STUDY.14)
-summary(repro.fuorteen) #Significant, underdispersed (quasi)
-
-repro.fuorteen2 = glm(fourteen_assump~(year), family=poisson, STUDY.14)
-summary(repro.fuorteen2) #Significant
