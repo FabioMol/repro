@@ -233,11 +233,11 @@ for (i in seq_along(variable_names)) {
 }
 
 #scores_categories
-scores_categories <- c("outstanding", "outstanding", "ongoing", 
-                    "outstanding", "outstanding", "outstanding", 
-                    "outstanding", "outstanding", "completed",
-                    "completed", "ongoing", "ongoing",
-                    "ongoing", "ongoing")
+scores_categories <- c("overlooked", "overlooked", "overlooked", 
+                    "overlooked", "overlooked", "overlooked", 
+                    "overlooked", "overlooked", "addressed",
+                    "overlooked", "in progress", "overlooked",
+                    "addressed", "in progress")
 
 #new_df
 ITEMS_means <- data.frame(means = means, items = variable_names, categories = scores_categories)
