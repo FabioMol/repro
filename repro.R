@@ -485,3 +485,4 @@ plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
 
 grid.arrange(plot0, plot1, plot2, plot3, plot4, plot5, plot6, plot7, plot8, plot9, plot10,
              plot11, plot12, plot13, plot14)
+
