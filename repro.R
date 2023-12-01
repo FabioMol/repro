@@ -250,11 +250,14 @@ ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "t
                                                   "ten_sample", "eleven_rando", "twelve_permit",
                                                   "thirteen_stats", "fourteen_assump"))
 
+terrain.colors(5)
+
 #Plot the means, color by category
+#Colour-blind friendly palette
 plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
   geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
   labs(title = "", x = "Checklist items", y = "Score means")+
-  scale_fill_manual(values = c("Dark green", "Orange", "Dark red"))+
+  scale_fill_manual(values = c("#006B05", "#EAB64E", "#E22C2C"))+
   scale_x_discrete(
     labels = c("1", "2", "3", "4", "5", "6", "7", "8",
                "9", "10", "11", "12", "13", "14")) +
