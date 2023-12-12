@@ -34,6 +34,7 @@ library(ggpubr)
 library(lme4)
 library(pscl)
 library(gridExtra)
+library(dplyr)
 
 ### data
 
@@ -53,159 +54,50 @@ STUDY = read_csv("./scores.csv")
 ### ============== SCORES ===============
 ### =====================================
 
-# (1) Identify average score
+# (1) Identify average, min, max scores
 mean(STUDY$score)
+min(STUDY$score)
+max(STUDY$score)
 
 ### =====================================
 ### ============= BY STUDY ==============
 ### =====================================
 
-# (2) Do scores change over time? 
-# Is there an effect of species? 
+# Averaging scores by year
+STUDY_av <- STUDY %>%
+  group_by(year) %>%
+  summarise(
+    score_av = mean(score, na.rm = TRUE),
+    study_count = n()
+  )
 
-#histograms
-hist(STUDY$score)
-hist(STUDY$year)
-hist(log(STUDY$year))
+print(score_av)
 
-#fig2.a - hist showing number of studies over the years
-fig2.a = ggplot(STUDY, aes(x = year)) +
-  geom_histogram(binwidth = 5, fill = "grey", color = "black", alpha = 0.7) +
-  labs(title = "", x = "Publication Year", y = "Number of Studies") +
-  scale_x_continuous(breaks = c(1940, 1960, 1980, 2000, 2020))+
+# Create a plot with both average score and study count
+fig.2 <- ggplot(STUDY_av, aes(year)) +
+  geom_bar(aes(y = study_count, fill = "Number of Studies"), alpha = 0.5, stat = "identity") +
+  geom_line(aes(y = score_av * 5, color = "Average Score"), size = 2) +
+  labs(x = "Year of Publication", y = "Number of Studies") +
+  scale_fill_manual(values = "grey", name = "") +
+  scale_color_manual(values = "black", name = "") +
   theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none')+ 
-theme(legend.title=element_blank())
+  theme(
+    axis.title.y = element_text(size = 15, colour = 'black'),
+    axis.title.x = element_text(size = 15, colour = 'black'),
+    axis.text.y = element_text(size = 12, colour = 'black'),
+    axis.text.x = element_text(size = 12, colour = 'black'),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = 'none'
+  ) +
+  scale_y_continuous(
+    name = "Number of Studies",
+    breaks = seq(0, 5, 1),
+    sec.axis = sec_axis(~./5, name = "Average Score", breaks = seq(0, 1, 0.2))
+  )
 
-
-#GLM scores ~ time for all studies
-repro.year = lm(score~log(year)+species, STUDY)
-summary(repro.year)
-
-repro.year = lm(score~log(year), STUDY)
-summary(repro.year)
-
-#fig2.b - regression showing scores over the years
-fig2.b = ggplot(STUDY, aes(log(year), score)) +
-  geom_point(aes(size=2)) +
-  stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
-  labs (x= "log (Year of Publication)", y = "Score") +
-  stat_regline_equation(label.y = 0.55, size=8, aes(label = after_stat(eq.label))) +
-  stat_regline_equation(label.y = 0.6, size=8, aes(label = ..rr.label..)) +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-#arranging both fig2.a & fig2.b
-grid.arrange(fig2.a, fig2.b)
-
-
-#GLM scores ~ time w/o <1990
-
-STUDY.1 <- subset(STUDY, year > 1990)
-
-hist(STUDY.1$year)
-hist(log(STUDY.1$year))
-
-repro.year.1 = lm(score~log(year), STUDY.1)
-summary(repro.year.1)
-
-ggplot(STUDY.1, aes(log(year), score)) +
-  geom_point(aes(size=2)) +
-  stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
-  labs (x= "log (Year of Publication)", y = "Score") +
-  stat_regline_equation(label.y = 0.55, size=8, aes(label = after_stat(eq.label))) +
-  stat_regline_equation(label.y = 0.6, size=8, aes(label = ..rr.label..)) +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-
-#GLM scores ~ time w/o studies that shared authorship
-
-STUDY.2 <- subset(STUDY, duplicates != 1)
-
-hist(STUDY.2$year)
-hist(log(STUDY.2$year))
-
-repro.year.2 = lm(score~log(year), STUDY.2)
-summary(repro.year.2)
-
-ggplot(STUDY.2, aes(log(year), score)) +
-  geom_point(aes(size=2)) +
-  stat_smooth(method = "lm", se = F, colour = 'black', size=2) +
-  labs (x= "log (Year of Publication)", y = "Score") +
-  stat_regline_equation(label.y = 0.55, size=8, aes(label = after_stat(eq.label))) +
-  stat_regline_equation(label.y = 0.6, size=8, aes(label = ..rr.label..)) +
-  theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 25, colour='black'),
-        axis.title.x = element_text(size = 25, colour='black'),
-        axis.text.y = element_text(size = 20, colour='black'),
-        axis.text.x = element_text(size = 20, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none') +
-  theme(legend.title=element_blank())
-
-
-
-#Spearman rank correlation - scores ~ time
-
-#for all studies
-cor_test <- cor.test(STUDY$score, STUDY$year, method = "spearman", exact = FALSE)
-print(cor_test)
-
-# Print the conclusion based on the p-value
-if (cor_test$p.value < 0.05) {
-  print("The correlation is statistically significant.")
-} else {
-  print("The correlation is not statistically significant.")
-}
-
-#w/o <1990
-cor_test2 <- cor.test(STUDY.1$score, STUDY.1$year, method = "spearman", exact = FALSE)
-print(cor_test2)
-
-# Print the conclusion based on the p-value
-if (cor_test2$p.value < 0.05) {
-  print("The correlation is statistically significant.")
-} else {
-  print("The correlation is not statistically significant.")
-}
-
-#w/o shared authorship
-cor_test3 <- cor.test(STUDY.2$score, STUDY.2$year, method = "spearman", exact = FALSE)
-print(cor_test3)
-
-# Print the conclusion based on the p-value
-if (cor_test3$p.value < 0.05) {
-  print("The correlation is statistically significant.")
-} else {
-  print("The correlation is not statistically significant.")
-}
-
+# Show the combined plot
+print(fig.2)
 
 
 
@@ -250,8 +142,6 @@ ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "t
                                                   "ten_sample", "eleven_rando", "twelve_permit",
                                                   "thirteen_stats", "fourteen_assump"))
 
-terrain.colors(5)
-
 #Plot the means, color by category
 #Colour-blind friendly palette
 plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
@@ -277,7 +167,7 @@ plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
 ###Plots scores by study for each variable (checklist items) separately
 
 plot1 = ggplot(STUDY, aes((year), one_registration)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "1 - Registration") +
   ylim(0, 1) +
   theme_bw() +
@@ -292,7 +182,7 @@ plot1 = ggplot(STUDY, aes((year), one_registration)) +
   theme(legend.title=element_blank())
 
 plot2 = ggplot(STUDY, aes((year), two_material)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "2 - Material") +
   ylim(0, 1) +
   theme_bw() +
@@ -307,7 +197,7 @@ plot2 = ggplot(STUDY, aes((year), two_material)) +
   theme(legend.title=element_blank())
 
 plot3 = ggplot(STUDY, aes((year), three_data)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "3 - Data avilability") +
   ylim(0, 1) +
   theme_bw() +
@@ -322,7 +212,7 @@ plot3 = ggplot(STUDY, aes((year), three_data)) +
   theme(legend.title=element_blank())
 
 plot4 = ggplot(STUDY, aes((year), four_datalink)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "4 - Data link") +
   ylim(0, 1) +
   theme_bw() +
@@ -337,7 +227,7 @@ plot4 = ggplot(STUDY, aes((year), four_datalink)) +
   theme(legend.title=element_blank())
 
 plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "5 - Data licence") +
   ylim(0, 1) +
   theme_bw() +
@@ -352,7 +242,7 @@ plot5 = ggplot(STUDY, aes((year), five_datalicence)) +
   theme(legend.title=element_blank())
 
 plot6 = ggplot(STUDY, aes((year), six_code)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "6 - Code avilability") +
   ylim(0, 1) +
   theme_bw() +
@@ -367,7 +257,7 @@ plot6 = ggplot(STUDY, aes((year), six_code)) +
   theme(legend.title=element_blank())
 
 plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "7 - Code link") +
   ylim(0, 1) +
   theme_bw() +
@@ -382,7 +272,7 @@ plot7 = ggplot(STUDY, aes((year), seven_codelink)) +
   theme(legend.title=element_blank())
 
 plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "8 - Code licence") +
   ylim(0, 1) +
   theme_bw() +
@@ -397,7 +287,7 @@ plot8 = ggplot(STUDY, aes((year), eight_codelicence)) +
   theme(legend.title=element_blank())
 
 plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "9 - Protocol") +
   ylim(0, 1) +
   theme_bw() +
@@ -412,7 +302,7 @@ plot9 = ggplot(STUDY, aes((year), nine_protocol)) +
   theme(legend.title=element_blank())
 
 plot10 = ggplot(STUDY, aes((year), ten_sample)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "10 - Sample") +
   ylim(0, 1) +
   theme_bw() +
@@ -427,7 +317,7 @@ plot10 = ggplot(STUDY, aes((year), ten_sample)) +
   theme(legend.title=element_blank())
 
 plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "11 - Randomization") +
   ylim(0, 1) +
   theme_bw() +
@@ -442,7 +332,7 @@ plot11 = ggplot(STUDY, aes((year), eleven_rando)) +
   theme(legend.title=element_blank())
 
 plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "12 - Permit") +
   ylim(0, 1) +
   theme_bw() +
@@ -457,7 +347,7 @@ plot12 = ggplot(STUDY, aes((year), twelve_permit)) +
   theme(legend.title=element_blank())
 
 plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "", y = "13 - Statistics") +
   ylim(0, 1) +
   theme_bw() +
@@ -471,8 +361,8 @@ plot13 = ggplot(STUDY, aes((year), thirteen_stats)) +
         legend.position = 'none') +
   theme(legend.title=element_blank())
 
-plot14 = ggplot(STUDY, aes((year), fourteen_assump)) +
-  geom_point(aes(size=2), shape=1, stroke=1) +
+plot14 = ggplot(STUDY, aes(year, fourteen_assump)) +
+  geom_point(aes(size=1.5), alpha = 0.3) +
   labs (x= "Publication year", y = "14 - Assumptions") +
   ylim(0, 1) +
   theme_bw() +
