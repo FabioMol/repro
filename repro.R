@@ -82,10 +82,10 @@ fig.2 <- ggplot(STUDY_av, aes(year)) +
   scale_color_manual(values = "black", name = "") +
   theme_bw() +
   theme(
-    axis.title.y = element_text(size = 15, colour = 'black'),
-    axis.title.x = element_text(size = 15, colour = 'black'),
-    axis.text.y = element_text(size = 12, colour = 'black'),
-    axis.text.x = element_text(size = 12, colour = 'black'),
+    axis.title.y = element_text(size = 25, colour = 'black'),
+    axis.title.x = element_text(size = 25, colour = 'black'),
+    axis.text.y = element_text(size = 20, colour = 'black'),
+    axis.text.x = element_text(size = 20, colour = 'black'),
     panel.grid.major = element_blank(),
     panel.grid.minor = element_blank(),
     legend.position = 'none'
@@ -144,23 +144,53 @@ ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "t
 
 #Plot the means, color by category
 #Colour-blind friendly palette
-plot0 = ggplot(ITEMS_means, aes(x = items, y = means, fill=categories)) +
+
+ggplot(ITEMS_means, aes(x = means, y = items, fill = categories)) +
   geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
-  labs(title = "", x = "Checklist items", y = "Score means")+
-  scale_fill_manual(values = c("#006B05", "#EAB64E", "#E22C2C"))+
-  scale_x_discrete(
-    labels = c("1", "2", "3", "4", "5", "6", "7", "8",
-               "9", "10", "11", "12", "13", "14")) +
+  labs(title = "", x = "Score means", y = "Checklist items") +
+  scale_fill_manual(values = c("black", "grey", "white")) +
+  scale_y_discrete(
+    labels = c("1 - Registration", "2 - Material availability statement", 
+               "3 - Data availability statement", "4 - Data link", 
+               "5 - Data licence", "6 - Code availability statement", 
+               "7 - Code link", "8 - Code licence",
+               "9 - Experimental protocol", "10 - Sample size", 
+               "11 - Rendomization", "12 - Study authorization", 
+               "13 - Statistics", "14 - Assumptions"),
+    limits = rev(levels(ITEMS_means$items))) +  # Reverse the levels of the y-axis
   theme_bw() +
-  theme(plot.title = element_blank(),
-        axis.title.y = element_text(size = 20, colour='black'),
-        axis.title.x = element_text(size = 20, colour='black'),
-        axis.text.y = element_text(size = 10, colour='black'),
-        axis.text.x = element_text(size = 10, colour='black'),
-        panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank(),
-        legend.position = 'none')+ 
-  theme(legend.title=element_blank())
+  theme(
+    plot.title = element_blank(),
+    axis.title.y = element_text(size = 30, colour = 'black'),
+    axis.title.x = element_text(size = 30, colour = 'black'),
+    axis.text.y = element_text(size = 20, colour = 'black'),
+    axis.text.x = element_text(size = 20, colour = 'black'),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = 'none',
+    legend.title = element_blank())
+
+
+#this for supplementary matetrial figure
+plot0 = ggplot(ITEMS_means, aes(x = means, y = items, fill = categories)) +
+  geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
+  labs(title = "", x = "Score means", y = "Checklist items") +
+  scale_fill_manual(values = c("black", "grey", "white")) +
+  scale_y_discrete(
+    labels = c("1", "2", "3", "4", "5", "6", "7", "8",
+               "9", "10", "11", "12", "13", "14"),
+    limits = rev(levels(ITEMS_means$items))) +  # Reverse the levels of the y-axis
+  theme_bw() +
+  theme(
+    plot.title = element_blank(),
+    axis.title.y = element_text(size = 20, colour = 'black'),
+    axis.title.x = element_text(size = 20, colour = 'black'),
+    axis.text.y = element_text(size = 10, colour = 'black'),
+    axis.text.x = element_text(size = 10, colour = 'black'),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = 'none',
+    legend.title = element_blank())
 
 
 
