@@ -150,14 +150,12 @@ ggplot(ITEMS_means, aes(x = means, y = items, fill = categories)) +
   labs(title = "", x = "Score means", y = "Checklist items") +
   scale_fill_manual(values = c("black", "grey", "white")) +
   scale_y_discrete(
-    labels = c("1 - Registration", "2 - Material availability statement", 
-               "3 - Data availability statement", "4 - Data link", 
-               "5 - Data licence", "6 - Code availability statement", 
-               "7 - Code link", "8 - Code licence",
-               "9 - Experimental protocol", "10 - Sample size", 
-               "11 - Rendomization", "12 - Study authorization", 
-               "13 - Statistics", "14 - Assumptions"),
-    limits = rev(levels(ITEMS_means$items))) +  # Reverse the levels of the y-axis
+    labels = c("14 - Assumptions", "13 - Statistics", "12 - Study authorization",
+               "11 - Rendomization", "10 - Sample size", "9 - Experimental protocol",
+               "8 - Code licence", "7 - Code link", "6 - Code availability statement",
+               "5 - Data licence",  "4 - Data link", "3 - Data availability statement",
+               "2 - Material availability statement", "1 - Registration"),
+    limits = rev(levels(ITEMS_means$items))) +
   theme_bw() +
   theme(
     plot.title = element_blank(),
@@ -177,9 +175,9 @@ plot0 = ggplot(ITEMS_means, aes(x = means, y = items, fill = categories)) +
   labs(title = "", x = "Score means", y = "Checklist items") +
   scale_fill_manual(values = c("black", "grey", "white")) +
   scale_y_discrete(
-    labels = c("1", "2", "3", "4", "5", "6", "7", "8",
-               "9", "10", "11", "12", "13", "14"),
-    limits = rev(levels(ITEMS_means$items))) +  # Reverse the levels of the y-axis
+    labels = c("14", "13", "12", "11", "10", "9", "8", "7",
+               "6", "5", "4", "3", "2", "1"),
+    limits = rev(levels(ITEMS_means$items))) +
   theme_bw() +
   theme(
     plot.title = element_blank(),
