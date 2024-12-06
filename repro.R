@@ -7,15 +7,14 @@
 #### A) Metadata
 # Name of author(s):       Dr. Fabio Mologni
 # Date of creation:        2023-30-11
-# Date of latest update:   2024-11-15
+# Date of latest update:   2024-12-06
 # Contact:                 fabio.mologni@gmail.com
 # Use:                     Please cite *MANUSCRIPT*
 
 ## Description of content
-# Script for the manuscript 'Open Science and Invasion Science: Where are we at?'
-# We used a reproducibility checklist adapted from Kast et al. 2023
-# to assess the level of reproducibility of a set of studies 
-# assessing the impacts of Russian Olive and Reed Canarygrass
+# Script for the manuscript 'Assessing Transparency and Reproducibility in Invasion Science'
+# We used a reproducibility checklist to assess the level of reproducibility 
+# of a set of studies assessing the impacts of Russian Olive and Reed Canarygrass
 # in rpiarian ecosystems of British Columbia
 
 #### -----------------------------------------------------------------------------------  #####.
