@@ -4,7 +4,7 @@ ________________________________________________________________________________
 
 **This repository includes data and analyses used for the manuscript**:
 
-Open Science and Invasion Science: Where are we at?; Fabio Mologni & Jason Pither. DOI: TBD
+Assessing Transparency and Reproducibility in Invasion Science; Fabio Mologni & Jason Pither. DOI: TBD
 
 ___________________________________________________________________________________________________________
 
