@@ -4,7 +4,9 @@ ________________________________________________________________________________
 
 **This repository includes data and analyses used for the manuscript**:
 
-Assessing Transparency and Reproducibility in Invasion Science; Fabio Mologni & Jason Pither. DOI: TBD
+Assessing Transparency and Reproducibility in Invasion Science; Fabio Mologni & Jason Pither. 
+
+[![DOI](https://zenodo.org/badge/666553829.svg)](https://doi.org/10.5281/zenodo.14288882)
 
 ___________________________________________________________________________________________________________
 
