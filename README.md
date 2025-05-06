@@ -21,6 +21,8 @@ ________________________________________________________________________________
 
 ___________________________________________________________________________________________________________
 
-**Licence**
+**License**
 
-TBD
+![License](https://img.shields.io/badge/license-CC%20BY%204.0-blue)
+
+Creative Commons Attribution 4.0 International License: [https://creativecommons.org/licenses/by/4.0/](https://creativecommons.org/licenses/by/4.0/)
