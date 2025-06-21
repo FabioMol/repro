@@ -19,7 +19,6 @@ ________________________________________________________________________________
 5) repro - R script
 6) repro - R project
 7) scores - raw data
-8) included_articles - digital copy of all the articles included in this study
 ___________________________________________________________________________________________________________
 
 **License**
