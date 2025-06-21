@@ -15,7 +15,7 @@
 # Script for the manuscript 'Assessing Transparency and Reproducibility in Invasion Science'
 # We used a reproducibility checklist to assess the level of reproducibility 
 # of a set of studies assessing the impacts of Russian Olive and Reed Canarygrass
-# in riarian ecosystems of British Columbia
+# in riparian ecosystems of British Columbia
 
 #### -----------------------------------------------------------------------------------  #####.
 #### B) Dependencies & Versions
