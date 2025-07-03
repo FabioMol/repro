@@ -5,14 +5,13 @@
 
 #### -----------------------------------------------------------------------------------  #####.
 #### A) Metadata
-# Name of author(s):       Dr. Fabio Mologni
+# Name of author(s):       Dr. Fabio Mologni, Dr. Jason Pither
 # Date of creation:        2023-30-11
-# Date of latest update:   2025-06-21
-# Contact:                 fabio.mologni@gmail.com
+# Date of latest update:   2025-07-01
+# Contact:                 fabio.mologni@gmail.com, jason.pither@ubc.ca
 
 ## Description of content
 # Script for the manuscript 'Transparency and Reproducibility in Invasion Science'
-# Script for the manuscript 'Assessing Transparency and Reproducibility in Invasion Science'
 # We used a reproducibility checklist to assess the level of reproducibility 
 # of a set of studies assessing the impacts of Russian Olive and Reed Canarygrass
 # in riparian ecosystems of British Columbia
@@ -123,15 +122,6 @@ for (i in seq_along(variable_names)) {
     means[i] <- rounded_mean
 }
 
-#assign scores_categories to each variable
-scores_categories <- c("overlooked", "overlooked", "overlooked", 
-                    "overlooked", "overlooked", "overlooked", 
-                    "overlooked", "overlooked", "addressed",
-                    "overlooked", "in progress", "overlooked",
-                    "addressed", "in progress")
-
-#create a new_df
-ITEMS_means <- data.frame(means = means*100, items = variable_names, categories = scores_categories)
 
 #reorder variables (checklist items)
 ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "two_material", "three_data", 
@@ -141,11 +131,10 @@ ITEMS_means$items <- factor(ITEMS_means$items, levels = c("one_registration", "t
                                                   "thirteen_stats", "fourteen_assump"))
 
 #fig.3 - Plot the mean score by item, color by category (addressed, overlooked, etc)
-fig.3 <- ggplot(ITEMS_means, aes(x = means, y = items, fill = categories)) +
-  geom_bar(stat = "identity", colour = "black", alpha = 0.7) +
+fig.3 <- ggplot(ITEMS_means, aes(x = means, y = items)) +
   labs(title = "", x = "Score means (%)", y = "Checklist items") +
-  scale_fill_manual(values = c("black", "grey", "white")) +
-  scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 25)) +
+  geom_col(fill = "white", color = "black")+
+scale_x_continuous(limits = c(0, 100), breaks = seq(0, 100, by = 25)) +
   scale_y_discrete(
     labels = c("14 - Assumptions", "13 - Statistics", "12 - Study authorization",
                "11 - Randomization", "10 - Sample size", "9 - Experimental protocol",
@@ -281,6 +270,75 @@ print(fig.s1)
 # Save
 ggsave("Figure S1.png", plot = fig.s1, width = 1650, height = 1375, units = "px", dpi = 105)
 ggsave("Figure S1.pdf", plot = fig.s1, width = 15.71, height = 13.10, units = "in")
+
+
+
+
+### ==================================================
+### ============= Permissive checklist ===============
+### ==================================================
+
+# List of variable names (checklist items) for which you want to calculate the mean
+variable_names <- c("three_data", "six_code", "nine_protocol",
+                    "ten_sample", "eleven_rando", 
+                    "thirteen_stats", "fourteen_assump")
+
+study_subset <- STUDY %>%
+  select(c(c("author", "year", "journal", "score", "species"), all_of(variable_names))) %>%
+  mutate(subset_score = 100 * rowSums(across(all_of(variable_names))) / length(variable_names),
+         subset_score_permissive = 100 * rowSums(across(all_of(variable_names)) > 0) / length(variable_names))
+
+# identify average, min, max scores
+mean(study_subset$subset_score)
+min(study_subset$subset_score)
+max(study_subset$subset_score)
+
+# identify average, min, max scores of permissive score
+mean(study_subset$subset_score_permissive)
+min(study_subset$subset_score_permissive)
+max(study_subset$subset_score_permissive)
+
+# averaging scores by year
+study_av <- study_subset %>%
+  group_by(year) %>%
+  summarise(
+    score_av = mean(subset_score, na.rm = TRUE),
+    score_perm_av = mean(subset_score_permissive, na.rm = TRUE),
+    study_count = n()
+  )
+
+print(study_av)
+
+# Fig.2 - plot with average permissive score (primary y-axis) and study count (secodnary) over time
+fig_S2_permissive <- ggplot(study_av, aes(year)) +
+  geom_bar(aes(y = study_count*20, fill = "Number of Studies"), alpha = 0.5, stat = "identity") +
+  geom_line(aes(y = score_perm_av, color = "Average Score"), size = 2) +
+  labs(x = "Year of Publication", y = "Number of Studies") +
+  scale_fill_manual(values = "grey", name = "") +
+  scale_color_manual(values = "black", name = "") +
+  theme_bw() +
+  theme(
+    axis.title.y = element_text(size = 25, colour = 'black'),
+    axis.title.x = element_text(size = 25, colour = 'black'),
+    axis.text.y = element_text(size = 20, colour = 'black'),
+    axis.text.x = element_text(size = 20, colour = 'black'),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank(),
+    legend.position = 'none'
+  ) +
+  scale_y_continuous(
+    name = "Number of Studies",
+    breaks = seq(0, 100, 20),
+    labels = function(x) x / 20,
+    sec.axis = sec_axis(~., name = "Average Score (%)", breaks = seq(0, 100, 20))
+  )
+print(fig_S2_permissive)
+
+# Save
+ggsave("Figure S2.png", plot = fig_S2_permissive, width = 880, height = 880, units = "px", dpi = 105)
+ggsave("Figure S2.pdf", plot = fig_S2_permissive, width = 8.38, height = 8.38, units = "in")
+
+
 
 
 ### =====================================

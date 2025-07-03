@@ -16,9 +16,10 @@ ________________________________________________________________________________
 2) Figure 2 - Figure 2 in the manuscript - scores by year and publication year.
 3) Figure 3 - Figure 3 in the manuscript, scores by item
 4) Figure S1 - Figure S1 in Supplementary (end of MS), scores by item w/ plots for each item
-5) repro - R script
-6) repro - R project
-7) scores - raw data
+5) Figure S2 - Figure S2 in Supplementary (end of MS), checklist focusing on 7 key items
+6) repro - R script
+7) repro - R project
+8) scores - raw data
 ___________________________________________________________________________________________________________
 
 **License**
